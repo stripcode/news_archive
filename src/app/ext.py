@@ -1,5 +1,7 @@
 import motor.motor_asyncio
 import aioredis
+import aiohttp_jinja2
+import jinja2
 
 
 
@@ -13,3 +15,9 @@ async def initRedis(app):
 def initMongo(app):
   client = motor.motor_asyncio.AsyncIOMotorClient(app["config"]["mongo"]["dsn"])
   app.mongoHandler = client[app["config"]["mongo"]["database"]]
+
+
+
+def initJinja(app):
+  aiohttp_jinja2.setup(app, loader = jinja2.FileSystemLoader('app/templates'))
+  app.aiohttp_jinja2 = aiohttp_jinja2

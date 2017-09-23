@@ -15,15 +15,29 @@ def login_required(f):
 
 
 async def authPage(request):
-  return web.Response(text = "401")
+  return request.template("auth.tpl", {"name": 123})
 
 
 
-async def showDefaultPage(request):
-  return web.Response(text = "public")
+async def processAuthPage(request):
+  data = await request.post()
+  login = data.get("login", None)
+  password = data.get("password", None)
+  if not all([login, password]):
+    raise RuntimeError("Нет обязательных параметров")
+  if login == "admin" and password == "Aa123456":
+    await request.redis.set("session", 1)
+  return web.HTTPFound('/')
 
 
 
 @login_required
 async def showPrivatePage(request):
-  return web.Response(text = "private")
+  return request.template("defaultPrivatePage.tpl")
+
+
+
+@login_required
+async def logout(request):
+  await request.redis.delete("session")
+  return web.HTTPFound('/')
