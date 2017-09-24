@@ -1,6 +1,7 @@
 from aiohttp import web
 import asyncio
 import functools
+from uuid import uuid4
 
 
 
@@ -26,7 +27,11 @@ async def processAuthPage(request):
   if not all([login, password]):
     raise RuntimeError("Нет обязательных параметров")
   if login == "admin" and password == "Aa123456":
-    await request.redis.set("session", 1)
+    uid = str(uuid4())
+    await request.redis.set("session:{}".format(uid), uid)
+    response = web.Response(text = "редирект", status = 302, headers = {'Location': '/'})
+    response.set_cookie("AIOHTTP_SESSION", uid)
+    return response
   return web.HTTPFound('/')
 
 
@@ -39,5 +44,6 @@ async def showPrivatePage(request):
 
 @login_required
 async def logout(request):
-  await request.redis.delete("session")
+  cookie = request.cookies.get("AIOHTTP_SESSION")
+  await request.redis.delete("session:{}".format(cookie))
   return web.HTTPFound('/')

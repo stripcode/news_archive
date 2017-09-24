@@ -35,7 +35,8 @@ async def jinjaMiddleware(app, handler):
 async def auth(app, handler):
   async def middleware(request):
     if hasattr(handler, "login_required"):
-      user = await request.redis.get("session")
+      cookie = request.cookies.get("AIOHTTP_SESSION")
+      user = await request.redis.get("session:{}".format(cookie))
       if user:
         request.user = user
       else:
