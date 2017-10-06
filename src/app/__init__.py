@@ -1,11 +1,12 @@
 from aiohttp import web
 import asyncio
 from .ext import initRedis, initMongo, initJinja
-from .middleware import mongoMiddleware, redisMiddleware, jinjaMiddleware,  auth
+from .middleware import mongoMiddleware, redisMiddleware, jinjaMiddleware, authMiddleware
 import os
 from configparser import ConfigParser
-import app.handlers as handlers
-import app.newsHandlers as newsHandlers
+import app.handlers.admin.public.auth as auth
+import app.handlers.admin.private.pages as privatePagesHandlers
+import app.handlers.admin.private.news as privateNewsHandlers
 
 
 
@@ -26,7 +27,7 @@ def createMainApp(pathToConfigFile = None):
   """
   loop = asyncio.get_event_loop()
   config = loadConfig(pathToConfigFile)
-  app = web.Application(middlewares = [mongoMiddleware, redisMiddleware, jinjaMiddleware, auth], loop = loop)
+  app = web.Application(middlewares = [mongoMiddleware, redisMiddleware, jinjaMiddleware, authMiddleware], loop = loop)
   app["config"] = config
 
   # Инициализация сторонних библиотек.
@@ -35,13 +36,13 @@ def createMainApp(pathToConfigFile = None):
   app.on_startup.append(initJinja)
 
   # Публичные роуты.
-  app.router.add_post("/", handlers.processAuthPage)
+  app.router.add_post("/", auth.processAuthPage)
 
-  # Приватные роуты.
-  app.router.add_get("/", handlers.showDefaultPrivatePage)
-  app.router.add_get("/logout/", handlers.logout)
+  # # Приватные роуты.
+  app.router.add_get("/", privatePagesHandlers.showDefaultPrivatePage)
+  app.router.add_get("/logout/", privatePagesHandlers.logout)
 
   # новости
-  app.router.add_get("/news/", newsHandlers.defaultNewsPage)
+  app.router.add_get("/news/", privateNewsHandlers.defaultNewsPage)
 
   return app

@@ -1,4 +1,4 @@
-from .handlers import authPage
+from app.handlers.admin.public.auth import authPage
 
 
 
@@ -32,7 +32,7 @@ async def jinjaMiddleware(app, handler):
 
 
 
-async def auth(app, handler):
+async def authMiddleware(app, handler):
   async def middleware(request):
     if hasattr(handler, "login_required"):
       cookie = request.cookies.get("AIOHTTP_SESSION")

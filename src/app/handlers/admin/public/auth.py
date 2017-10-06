@@ -1,21 +1,5 @@
 from aiohttp import web
-import asyncio
-import functools
 from uuid import uuid4
-
-
-
-def login_required(f):
-  """
-  Декоратор позволяет выставить флаг login_required хендлеру,
-  которыей в свою очередь будет обрабатывать в middleare.
-  """
-  @asyncio.coroutine
-  @functools.wraps(f)
-  def wrapper(request):
-    return f(request)
-  wrapper.login_required = True # флаг для middleware
-  return wrapper
 
 
 
@@ -48,24 +32,4 @@ async def processAuthPage(request):
     response.set_cookie("AIOHTTP_SESSION", uid)
     return response
 
-  return web.HTTPFound('/')
-
-
-
-@login_required
-async def showDefaultPrivatePage(request):
-  """
-  Страница по умолчанию приватной части.
-  """
-  return request.template("admin/private/defaultPage.tpl")
-
-
-
-@login_required
-async def logout(request):
-  """
-  Разлогинивает пользователя удаляя его сессию из redis.
-  """
-  cookie = request.cookies.get("AIOHTTP_SESSION")
-  await request.redis.delete("session:{}".format(cookie))
   return web.HTTPFound('/')
