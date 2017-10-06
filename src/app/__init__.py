@@ -4,9 +4,9 @@ from .ext import initRedis, initMongo, initJinja
 from .middleware import mongoMiddleware, redisMiddleware, jinjaMiddleware, authMiddleware
 import os
 from configparser import ConfigParser
-import app.handlers.admin.public.auth as auth
-import app.handlers.admin.private.pages as privatePagesHandlers
-import app.handlers.admin.private.news as privateNewsHandlers
+import app.handlers.admin.public.auth as adminAuthHandlers
+import app.handlers.admin.private.pages as adminPrivatePagesHandlers
+import app.handlers.admin.private.news as adminPrivateNewsHandlers
 
 
 
@@ -20,7 +20,7 @@ def loadConfig(runConfig):
 
 
 
-def createMainApp(pathToConfigFile = None):
+def createAdminApp(pathToConfigFile = None):
   """
   Создает приложение для админской части.
   Параметр pathToConfigFile необходим для указания конфигурациионного файла в продакшене.
@@ -36,13 +36,13 @@ def createMainApp(pathToConfigFile = None):
   app.on_startup.append(initJinja)
 
   # Публичные роуты.
-  app.router.add_post("/", auth.processAuthPage)
+  app.router.add_post("/", adminAuthHandlers.processAuthPage)
 
   # # Приватные роуты.
-  app.router.add_get("/", privatePagesHandlers.showDefaultPrivatePage)
-  app.router.add_get("/logout/", privatePagesHandlers.logout)
+  app.router.add_get("/", adminPrivatePagesHandlers.showDefaultPrivatePage)
+  app.router.add_get("/logout/", adminPrivatePagesHandlers.logout)
 
   # новости
-  app.router.add_get("/news/", privateNewsHandlers.defaultNewsPage)
+  app.router.add_get("/news/", adminPrivateNewsHandlers.defaultNewsPage)
 
   return app
