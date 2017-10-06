@@ -3,12 +3,12 @@
 {% block content %}
 <form method="post">
   <div>
-    <label>Логин</label>
-    <input type="text" name="login">
+    <label for="login" >Логин</label>
+    <input type="text" id="login" name="login">
   </div>
   <div>
-    <label>Пароль</label>
-    <input type="password" name="password">
+    <label for="password">Пароль</label>
+    <input type="password" id="password" name="password">
   </div>
   <button type="submit">Войти</button>
 </form>
