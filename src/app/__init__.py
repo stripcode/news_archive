@@ -5,6 +5,7 @@ from .middleware import mongoMiddleware, redisMiddleware, jinjaMiddleware,  auth
 import os
 from configparser import ConfigParser
 import app.handlers as handlers
+import app.newsHandlers as newsHandlers
 
 
 
@@ -39,4 +40,8 @@ def createMainApp(pathToConfigFile = None):
   # Приватные роуты.
   app.router.add_get("/", handlers.showDefaultPrivatePage)
   app.router.add_get("/logout/", handlers.logout)
+
+  # новости
+  app.router.add_get("/news/", newsHandlers.defaultNewsPage)
+
   return app

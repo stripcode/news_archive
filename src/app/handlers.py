@@ -57,7 +57,7 @@ async def showDefaultPrivatePage(request):
   """
   Страница по умолчанию приватной части.
   """
-  return request.template("defaultPrivatePage.tpl")
+  return request.template("admin/private/defaultPage.tpl")
 
 
 
