@@ -18,14 +18,15 @@ def loadConfig(runConfig):
 
 
 
-def createMainApp(config = None):
+def createMainApp(pathToConfigFile = None):
   """
   Создает приложение для админской части.
-  Параметр config необходим для указания конфигурациионного файла в продакшене.
+  Параметр pathToConfigFile необходим для указания конфигурациионного файла в продакшене.
   """
   loop = asyncio.get_event_loop()
+  config = loadConfig(pathToConfigFile)
   app = web.Application(middlewares = [mongoMiddleware, redisMiddleware, jinjaMiddleware, auth], loop = loop)
-  app["config"] = loadConfig(config)
+  app["config"] = config
 
   # Инициализация сторонних библиотек.
   app.on_startup.append(initRedis)
