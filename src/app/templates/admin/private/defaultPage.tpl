@@ -1,4 +1,4 @@
-{% extends "public.tpl" %}
+{% extends "admin/private/private.tpl" %}
 
 {% block content %}
 <div>

@@ -7,7 +7,7 @@ async def authPage(request):
   """
   Страница отображает форму входа в административные раздел.
   """
-  return request.template("auth.tpl", {"name": 123})
+  return request.template("admin/public/auth.tpl")
 
 
 

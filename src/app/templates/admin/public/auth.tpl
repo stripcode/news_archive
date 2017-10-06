@@ -1,4 +1,4 @@
-{% extends "public.tpl" %}
+{% extends "admin/public/public.tpl" %}
 
 {% block content %}
 <form method="post">
