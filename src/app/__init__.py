@@ -28,6 +28,7 @@ def createAdminApp(pathToConfigFile = None):
   loop = asyncio.get_event_loop()
   config = loadConfig(pathToConfigFile)
   app = web.Application(middlewares = [mongoMiddleware, redisMiddleware, jinjaMiddleware, authMiddleware], loop = loop)
+  root = os.path.dirname(__file__)
   app["config"] = config
 
   # Инициализация сторонних библиотек.
@@ -37,6 +38,7 @@ def createAdminApp(pathToConfigFile = None):
 
   # Публичные роуты.
   app.router.add_post("/", adminAuthHandlers.processAuthPage)
+  app.router.add_static('/static', os.path.join(root, "static"))
 
   # # Приватные роуты.
   app.router.add_get("/", adminPrivatePagesHandlers.showDefaultPrivatePage)

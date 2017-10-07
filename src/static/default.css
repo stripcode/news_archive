@@ -1,0 +1,11 @@
+.main{
+  display: flex;
+}
+
+.main-menu{
+  list-style: none;
+}
+
+.content{
+  margin-left: 20px;
+}

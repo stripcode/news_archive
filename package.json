@@ -1,0 +1,17 @@
+{
+  "name": "perv.news",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "babel-loader": "*",
+    "babel-core": "*",
+    "webpack": "*",
+    "css-loader": "*",
+    "style-loader": "*",
+    "file-loader": "*",
+    "extract-text-webpack-plugin": "*",
+    "font-awesome": "*",
+    "normalize.css": "*"
+  },
+  "license": "http://perv.news"
+}

@@ -1,7 +1,8 @@
 {% extends "admin/private/private.tpl" %}
 
 {% block content %}
-<a href="/news/create/">Создать новость</a>
+<h2>Новости</h2>
+<button href="/news/create/">Создать новость</button>
 
 <ul>
   {% for article in articles %}
