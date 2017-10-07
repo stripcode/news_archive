@@ -1,5 +1,6 @@
 from app.handlers import login_required
 from aiohttp import web
+from bson.objectid import ObjectId
 
 
 
@@ -38,3 +39,16 @@ async def processCreateDialog(request):
   }
   result = await request.mongo.article.insert_one(art)
   return web.HTTPFound("/news/{}".format(result.inserted_id))
+
+
+
+@login_required
+async def showNewsPage(request):
+  """
+  Страница отображения одной новости
+  """
+  newsId = request.match_info.get('newsId')
+  article = await request.mongo.article.find_one({"_id": ObjectId(newsId)})
+  if not article:
+    return web.HTTPNotFound()
+  return request.template("admin/private/news/NewsPage.tpl", {"article": article})

@@ -45,6 +45,7 @@ def createAdminApp(pathToConfigFile = None):
   # новости
   app.router.add_get("/news/", adminPrivateNewsHandlers.showDefaultPage)
   app.router.add_get("/news/create/", adminPrivateNewsHandlers.showCreateDialog)
+  app.router.add_get("/news/{newsId}", adminPrivateNewsHandlers.showNewsPage)
   app.router.add_post("/news/create/", adminPrivateNewsHandlers.processCreateDialog)
 
   return app
