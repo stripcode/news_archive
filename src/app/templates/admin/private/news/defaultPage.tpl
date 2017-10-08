@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Новости</h2>
-<a href="/news/create/" class="btn">Создать новость</a>
+<a href="/news/create/" class="btn btn-primary">Создать новость</a>
 
 <ul>
   {% for article in articles %}

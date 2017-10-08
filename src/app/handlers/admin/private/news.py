@@ -52,3 +52,34 @@ async def showNewsPage(request):
   if not article:
     return web.HTTPNotFound()
   return request.template("admin/private/news/NewsPage.tpl", {"article": article})
+
+
+
+@login_required
+async def showEditNewsDialog(request):
+  """
+  Диалог редактирования новости
+  """
+  newsId = request.match_info.get('newsId')
+  article = await request.mongo.article.find_one({"_id": ObjectId(newsId)})
+  if not article:
+    return web.HTTPNotFound()
+  return request.template("admin/private/news/EditNewsDialog.tpl", {"article": article})
+
+
+
+@login_required
+async def processEditNewsDialog(request):
+  """
+  Обрабатыва диалог редактирования новости
+  """
+  newsId = request.match_info.get('newsId')
+  formData = await request.post()
+  title = formData.get("title")
+  article = formData.get("article")
+  art = {
+    "title": title,
+    "article": article
+  }
+  await request.mongo.article.update_one({"_id": ObjectId(newsId)}, {"$set": art})
+  return web.HTTPFound("/news/{}".format(newsId))
