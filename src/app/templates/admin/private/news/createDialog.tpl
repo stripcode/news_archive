@@ -10,6 +10,6 @@
     <label for="article">Статья</label>
     <textarea id="article" name="article" rows="10" cols="100" required></textarea>
   </div>
-  <button type="submit">Сохранить</button>
+  <button type="submit" class="btn">Сохранить</button>
 </form>
 {% endblock %}

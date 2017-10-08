@@ -9,3 +9,13 @@
 .content{
   margin-left: 20px;
 }
+
+.btn{
+  color: white;
+  background-color: grey;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 400;
+}
