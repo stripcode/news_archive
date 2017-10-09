@@ -1,6 +1,7 @@
 from app.handlers import login_required
 from aiohttp import web
 from bson.objectid import ObjectId
+from time import time
 
 
 
@@ -32,10 +33,11 @@ async def processCreateDialog(request):
   """
   formData = await request.post()
   title = formData.get("title")
-  article = formData.get("article")
+  content = formData.get("content")
   art = {
     "title": title,
-    "article": article
+    "content": content,
+    "createTime": int(time())
   }
   result = await request.mongo.article.insert_one(art)
   return web.HTTPFound("/news/{}".format(result.inserted_id))
@@ -76,10 +78,10 @@ async def processEditNewsDialog(request):
   newsId = request.match_info.get('newsId')
   formData = await request.post()
   title = formData.get("title")
-  article = formData.get("article")
+  content = formData.get("content")
   art = {
     "title": title,
-    "article": article
+    "content": content
   }
   await request.mongo.article.update_one({"_id": ObjectId(newsId)}, {"$set": art})
   return web.HTTPFound("/news/{}".format(newsId))

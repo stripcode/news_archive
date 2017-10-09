@@ -3,7 +3,8 @@
 {% block content %}
 <h2>{{ article.title }}</h2>
 <a href="/news/{{ article._id }}/edit/" class="btn">Редактировать</a>
+<p>{{ article.createTime }}</p>
 <p>
-  {{ article.article }}
+  {{ article.content }}
 </p>
 {% endblock %}
