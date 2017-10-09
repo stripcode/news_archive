@@ -2,11 +2,11 @@
 
 {% block content %}
 <form method="post">
-  <div>
+  <div class="form-group">
     <label for="title">Заголовок</label>
     <input type="text" id="title" name="title" value="{{ article.title }}" required>
   </div>
-  <div>
+  <div class="form-group">
     <label for="article">Статья</label>
     <textarea id="article" name="article" rows="10" cols="100" required>{{ article.article }}</textarea>
   </div>
